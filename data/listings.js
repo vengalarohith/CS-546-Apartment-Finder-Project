@@ -39,7 +39,6 @@ images
 const getListingById = async (id) => {
     const listingsCollection = await listings();
     const listing = await listingsCollection.findOne({ _id: new ObjectId(id) });
-
     return listing;
 };
 
@@ -49,23 +48,19 @@ const getListings = async () => {
     return listing;
 };
 
-const addComment = async () => {userId, comment
+const addComment = async (listingId, comment, userId, username) => {
+    console.log(listingId)
     const newComment = {
         _id: new ObjectId(),
         user: userId,
+        username: username,
         comment: comment,
         dataPosted: new Date(),
     };
-
-    // Update the document with the new comment
+    const listingsCollection = await listings();
     listingsCollection.updateOne(
-        { _id: listingId },
-        { $push: { comments: newComment } },
-        (err, result) => {
-            if (err) throw err;
-            console.log(`Comment added successfully: ${result.modifiedCount} document(s) updated`);
-            client.close();
-        }
+        { _id: new ObjectId(listingId) },
+        { $push: { comments: newComment } }
     );
 }
 
@@ -73,4 +68,5 @@ export default {
 getListingById,
 newListing,
 getListings,
+addComment
 };

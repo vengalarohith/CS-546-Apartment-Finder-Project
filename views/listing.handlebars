@@ -75,8 +75,15 @@
 
     <section id="comments">
         <h3>Comments</h3>
-        <div id="comment-section">
-            <!-- Comments will be dynamically added here -->
+            <div id="comment-section" class="comments-thread">
+                <!-- Comments will be dynamically added here -->
+            </div>
+        <div id="new-comment-section">
+            <form action="/listing/comment/new" method="post">
+            <textarea type="text" id="comment" name="comment" placeholder="Add your comment..."></textarea>
+            <input type="hidden" id="listingId" name="id" value="{{listing._id}}">
+            <button id="post-comment-btn" onclick="postComment()">Post Comment</button>
+            </form>
         </div>
     </section>
 
@@ -91,4 +98,28 @@
 <script type="application/javascript">
     // Initialize the carousel
     $('#image-carousel').carousel();
+
+    function displayComments(comments) {
+        const commentSection = $('#comment-section');
+
+        // Loop through the comments and create comment elements
+        comments.forEach((comment) => {
+            const dateObject = new Date(comment.dataPosted);
+            const formattedDate = dateObject.toLocaleString();
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment';
+            commentElement.innerHTML = `
+                <p>${comment.username} (${formattedDate}):</p>
+                <p>${comment.comment}</p>
+            `;
+
+            // Append the comment to the comment section
+            commentSection.append(commentElement);
+        });
+    }
+
+
+
+    const sampleComments = {{{comments}}};
+    displayComments(sampleComments);
 </script>

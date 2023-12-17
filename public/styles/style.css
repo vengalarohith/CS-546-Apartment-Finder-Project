@@ -21,9 +21,7 @@ h2 {
 }
 
 form {
-    display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the start of the cross-axis (vertically) */
 }
 
 label {
@@ -500,4 +498,39 @@ img{max-width:100%;}
 .baths-info:hover {
 	background-color: #f9f9f9; /* Light gray on hover */
 	transition: background-color 0.3s ease;
+}
+
+/* Style for each individual comment */
+.comment {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
+	background-color: #f9f9f9;
+}
+
+/* Style for the new comment input and button */
+/* Style for the new comment input and button */
+#new-comment-section {
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+}
+
+#new-comment {
+	flex: 1;
+	width: 80%; /* Adjust the width as needed */
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-right: 10px;
+}
+
+#post-comment-btn {
+	padding: 8px 15px;
+	background-color: #337ab7;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
 }
