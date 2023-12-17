@@ -1,0 +1,94 @@
+<!-- Add Bootstrap CSS and JS links in your HTML file if not already included -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<header class="clearfix">
+    <div class="container">
+        <div class="header-left">
+            <h1>Apartment Finder</h1>
+        </div>
+        <div class="header-right">
+            <label for="open">
+                <span class="hidden-desktop"></span>
+            </label>
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">Inspiration</a>
+                <a href="#">Articles</a>
+                <a href="#">Works</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </div>
+</header>
+<div class="listing-container">
+    <section id="listing-details">
+        <div id="image-carousel" class="carousel slide" data-ride="carousel">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                {{#each listing.images }}
+                    {{#ifCond @index '===' 0}}
+                    <div class="item active">
+                    {{else}}
+                    <div class="item">
+                    {{/ifCond}}
+                    <img src="{{this}}" alt="Image">
+                </div>
+                {{/each}}
+            </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#image-carousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#image-carousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        <h2>Listing Details</h2>
+            <div class="price-info">
+                <p class="price-label">Price:</p>
+                <p class="price-value">${{listing.rentPrice}}</p>
+            </div>
+            <div class="beds-info">
+                <p class="beds-label">Number of Bedrooms:</p>
+                <p class="beds-value">{{listing.numberOfBedrooms}}</p>
+            </div>
+            <div class="baths-info">
+                <p class="baths-label">Number of Bathrooms:</p>
+                <p class="baths-value">{{listing.numberOfBathrooms}}</p>
+            </div>
+            <div class="baths-info">
+                <p class="baths-label">Address: :</p>
+                <p class="baths-value">{{listing.address}}, {{listing.city}}, {{listing.state}}</p>
+            </div>
+        <!-- Add more details as needed -->
+
+        <h3>Description</h3>
+        <p id="description">{{listing.description}}</p>
+
+
+    </section>
+
+    <section id="comments">
+        <h3>Comments</h3>
+        <div id="comment-section">
+            <!-- Comments will be dynamically added here -->
+        </div>
+    </section>
+
+    <section id="landlord-info">
+        <h2>Landlord Information</h2>
+        <p>Landlord Name: <span id="landlord-name">{{landlord.firstName}} {{landlord.lastName}}</span></p>
+        <p>Contact: <span id="landlord-contact">{{landlord.emailAddress}}</span></p>
+        <!-- Add more landlord details as needed -->
+    </section>
+</div>
+
+<script type="application/javascript">
+    // Initialize the carousel
+    $('#image-carousel').carousel();
+</script>

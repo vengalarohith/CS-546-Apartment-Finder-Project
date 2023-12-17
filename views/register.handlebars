@@ -1,0 +1,41 @@
+<!-- views/register.handlebars -->
+
+<div class="login-container">
+    <h2>Register</h2>
+    {{#if errors}}
+    <span class="error">
+        {{#each errors}}
+            <li>{{this}}</li>
+        {{/each}}
+    </span>
+    {{/if}}
+    <span class="error">{{error}}</span>
+    <form action="/auth/register" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+        </div>
+        <div>
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+        </div>
+        <div>
+            <label for="emailAddress">Email Address:</label>
+            <input type="email" id="emailAddress" name="emailAddress" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password1" required>
+        </div>
+        <div>
+            <label for="password">Re Enter Password:</label>
+            <input type="password" id="password" name="password2" required>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="/auth/login">Login</a>.</p>
+</div>
