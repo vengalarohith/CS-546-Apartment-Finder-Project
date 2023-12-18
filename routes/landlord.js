@@ -6,11 +6,7 @@ import toursData from '../data/tours.js';
 import {authMiddleware} from '../middleware.js';
 
 router.get('/', authMiddleware, async (req, res) => {
-    console.log('entered');
     const listings = await listingsData.getListingsLandord(req.session.user._id);
-    console.log('fectched')
-    console.log(listings);
-    console.log('listings');
     if (req.session.user) {
         res.render('landlordDashbaord', { title: 'Landlord Dashboard', user: req.session.user, listings: JSON.stringify(listings) });
     } else {
@@ -54,7 +50,6 @@ router.post('/listings/new', async (req, res) => {
         description,
         imagesArray
     );
-    console.log('completed')
     res.redirect('/landlord');
 });
 
@@ -67,7 +62,6 @@ router.post('/approve-tour', async (req, res) => {
     const { tourId } = req.body;
     try {
         const updatedTour = await toursData.updateTourStatus(tourId);
-        console.log(updatedTour);
         if (updatedTour) {
             res.status(200).json({ message: 'Tour approved successfully', tour: updatedTour });
         } else {
@@ -82,7 +76,6 @@ router.post('/approve-tour', async (req, res) => {
 
 router.get('/charts', authMiddleware, async (req, res) => {
     const listings = await listingsData.getListings();
-    console.log(JSON.stringify(listings));
     res.render('landlordCharts', { title: 'Finder Analytics', user: req.session.user, listings: JSON.stringify(listings) });
 });
 

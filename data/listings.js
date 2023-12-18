@@ -44,7 +44,6 @@ const getListingById = async (id) => {
 };
 
 const getListingsLandord = async (id) => {
-    console.log(id, "here");
     const listingsCollection = await listings();
     const listing = await listingsCollection.find({ landlordId: id }).toArray();
     return listing;
@@ -57,7 +56,6 @@ const getListings = async () => {
 };
 
 const addComment = async (listingId, comment, userId, username) => {
-    console.log(listingId)
     const newComment = {
         _id: new ObjectId(),
         user: userId,

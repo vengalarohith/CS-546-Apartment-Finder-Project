@@ -24,12 +24,10 @@ router.get('/charts', authMiddleware, async (req, res) => {
 router.get('/listing', async (req, res) => {
   const listing = await listingsData.getListingById(req.query.id);
   const landlord = await usersData.getUserById(listing.landlordId);
-  console.log(landlord);
   res.render('listing', {title: listing.address, listing: listing, landlord: landlord, comments: JSON.stringify(listing.comments)});
 });
 
 router.post('/listing/comment/new', async (req, res) => {
-  console.log(req.body.id, req.body.comment)
   await listingsData.addComment(req.body.id, req.body.comment, req.session.user._id, req.session.user.username);
   res.redirect('/listing?id='+ req.body.id +'#comment-section');
 });
