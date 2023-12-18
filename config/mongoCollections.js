@@ -15,9 +15,11 @@ const getCollectionFn = (collection) => {
 
 const users = getCollectionFn('users');
 const listings = getCollectionFn('listings');
+const tours = getCollectionFn('tours');
 
 
 export {
 users,
-listings
+listings,
+tours
 }

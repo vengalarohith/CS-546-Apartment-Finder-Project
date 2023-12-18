@@ -80,6 +80,7 @@
             </div>
         <div id="new-comment-section">
             <form action="/listing/comment/new" method="post">
+
             <textarea type="text" id="comment" name="comment" placeholder="Add your comment..."></textarea>
             <input type="hidden" id="listingId" name="id" value="{{listing._id}}">
             <button id="post-comment-btn" onclick="postComment()">Post Comment</button>
@@ -92,6 +93,24 @@
         <p>Landlord Name: <span id="landlord-name">{{landlord.firstName}} {{landlord.lastName}}</span></p>
         <p>Contact: <span id="landlord-contact">{{landlord.emailAddress}}</span></p>
         <!-- Add more landlord details as needed -->
+    </section>
+    <section id="landlord-info">
+        <div id="schedule-tour-section">
+            <h3>Schedule a Tour</h3>
+            <form action="/mytours" method="post">
+
+                <label for="tourDateTime">Tour Date and Time:</label>
+                <input type="datetime-local" id="tourDateTime" name="datetime" required onblur="validateTourDate()">
+
+
+
+                <input type="hidden" id="listingId" name="listing" value="{{listing._id}}">
+                <input type="hidden" id="tenantId" name="landlord" value="{{landlord._id}}">
+                <input type="hidden" id="address" name="address" value="{{listing.address}}">
+
+                <button type="submit">Submit Tour Request</button>
+            </form>
+        </div>
     </section>
 </div>
 
@@ -122,4 +141,18 @@
 
     const sampleComments = {{{comments}}};
     displayComments(sampleComments);
+
+
+    function validateTourDate() {
+        var tourDateTimeElement = document.getElementById('tourDateTime');
+        const tourDateTime = tourDateTimeElement.value;
+        const selectedDate = new Date(tourDateTime);
+        const currentDate = new Date();
+
+        if (selectedDate <= currentDate) {
+            alert('Please select a future date and time for the tour.');
+            tourDateTimeElement.value = '';
+        }
+
+    }
 </script>

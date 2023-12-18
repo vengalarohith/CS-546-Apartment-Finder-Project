@@ -1,0 +1,128 @@
+<!-- Add Bootstrap CSS and JS links in your HTML file if not already included -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<header class="clearfix">
+    <div class="container">
+        <div class="header-left">
+            <h1>Apartment Finder</h1>
+        </div>
+        <div class="header-right">
+            <label for="open">
+                <span class="hidden-desktop"></span>
+            </label>
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">Inspiration</a>
+                <a href="#">Articles</a>
+                <a href="#">Works</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </div>
+</header>
+<div class="listing-container">
+    <div id="user-tours">
+        <h3>Your Tours</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Property Address</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Approve</th>
+            </tr>
+            </thead>
+            <tbody id="tours-table-body">
+            <!-- Tours will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+<script type="application/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        const toursData = {{{tours}}};
+
+        const toursTableBody = document.getElementById('tours-table-body');
+
+        // Loop over the list of tour objects
+        toursData.forEach((tour) => {
+            // Create a new row
+            const row = document.createElement('tr');
+
+            // Add columns to the row
+            const addressColumn = document.createElement('td');
+            addressColumn.textContent = tour.listingAddress;
+
+            const dateColumn = document.createElement('td');
+            dateColumn.textContent = new Date(tour.tourDateTime).toLocaleDateString();
+
+            const timeColumn = document.createElement('td');
+            timeColumn.textContent = new Date(tour.tourDateTime).toLocaleTimeString();
+
+            const statusColumn = document.createElement('td');
+            const statusIndicator = document.createElement('span');
+            statusIndicator.classList.add('status-indicator');
+
+            // Set text content and color based on the confirmed status
+            if (tour.confirmed) {
+                statusColumn.textContent = 'Confirmed';
+                statusIndicator.textContent = '✅'; // Checkmark emoji for confirmed
+                statusColumn.classList.add('status-confirmed');
+            } else {
+                    const approveButton = document.createElement('button');
+                    approveButton.textContent = 'Approve';
+                    approveButton.classList.add('btn', 'btn-success');
+                    approveButton.addEventListener('click', () => handleApprove(tour._id));
+                    statusColumn.appendChild(approveButton);
+            }
+
+            // Append columns to the row
+            row.appendChild(addressColumn);
+            row.appendChild(dateColumn);
+            row.appendChild(timeColumn);
+            statusColumn.appendChild(statusIndicator);
+            row.appendChild(statusColumn);
+
+            // Append the row to the table body
+            toursTableBody.appendChild(row);
+        });
+
+        function handleApprove(tourId) {
+    // Assuming you have a URL for approving tours
+    const approveUrl = '/landlord/approve-tour';
+
+    // Data to be sent in the POST request
+    const postData = {
+        tourId: tourId,
+    };
+
+    // Configure the fetch options
+    const fetchOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // Add any other headers if needed
+        },
+        body: JSON.stringify(postData),
+    };
+
+    // Send the POST request
+    fetch(approveUrl, fetchOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // If the request is successful, reload the page
+            location.reload();
+        })
+        .catch(error => {
+            // Handle errors, log or display an error message
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+    });
+</script>
