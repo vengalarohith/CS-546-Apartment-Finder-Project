@@ -1,0 +1,76 @@
+{{> landlordHeader}}
+
+<section class="clearfix">
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="container">
+        <h2>Your Listings</h2>
+        <div class="row" id="listings">
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="my-list">
+                    <img src="https://www.thespruce.com/thmb/cPaZ1eA5WqKLYH4kSry7wrMYsDM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/EleanorEmail-847750221ae1499c972c977f279d2d5e.png" alt="dsadas" />
+                    <h3>2BHK | Jersey CityJersey CityJersey City</h3>
+                    <span> 12,000 </span>
+                    <span class="pull-right ml-2">|1.5 Bath </span>
+                    <span class="pull-right pr-2">2 Bed</span>
+                    <div class="offer">Posted on: 12/12/2023: </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script type="application/javascript">
+
+    const originalListings = {{{listings}}};
+    let displayedListings = originalListings;
+
+    const container = document.getElementById('listings');
+
+    const renderListings = () => {
+        // Clear existing listings
+        container.innerHTML = '';
+        displayedListings = originalListings.filter(listing => {
+            return (
+                listing.active === 1
+            );
+        });
+        displayedListings.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
+
+
+        // Render filtered listings
+        displayedListings.forEach(obj => {
+            const card = document.createElement('div');
+            card.className = 'col-lg-3 col-md-3 col-sm-6 col-xs-12';
+            const dateObject = new Date(obj.createdOn);
+            const formattedDate = dateObject.toLocaleDateString();
+
+
+            card.innerHTML = `
+               <div class="my-list" >
+                    <img src="${obj.images[0]}" alt="${obj.address}" />
+                   <a href="/landlord/listing?id=${obj._id}"> <h3 >For Rent at ${obj.address}, ${obj.city}, ${obj.state}</h3></a>
+                    <span>${obj.rentPrice}</span>
+                    <span   class="pull-right ml-2">|${obj.numberOfBathrooms} Bath </span>
+                    <span class="pull-right pr-2">${obj.numberOfBedrooms} Bed</span>
+                    <div class="offer">Posted on: ${formattedDate}</div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    };
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    renderListings();
+});
+
+</script>
+

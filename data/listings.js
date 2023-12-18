@@ -28,6 +28,7 @@ images
         description,
         images,
         createdOn: new Date(),
+        active: 1,
     };
 
     const listingsCollection = await listings();
@@ -39,6 +40,13 @@ images
 const getListingById = async (id) => {
     const listingsCollection = await listings();
     const listing = await listingsCollection.findOne({ _id: new ObjectId(id) });
+    return listing;
+};
+
+const getListingsLandord = async (id) => {
+    console.log(id, "here");
+    const listingsCollection = await listings();
+    const listing = await listingsCollection.find({ landlordId: id }).toArray();
     return listing;
 };
 
@@ -68,5 +76,6 @@ export default {
 getListingById,
 newListing,
 getListings,
-addComment
+addComment,
+getListingsLandord
 };

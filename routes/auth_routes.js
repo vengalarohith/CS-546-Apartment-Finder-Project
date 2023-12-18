@@ -11,8 +11,8 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', [
-  check('username').isAlpha().withMessage('First name must be alphabetic'),
-  check('username').isLength({ min: 2, max: 8 }).withMessage('First name must be between 2 and 8 characters'),
+  check('username').isAlpha().withMessage('Username must be alphabetic'),
+  check('username').isLength({ min: 2, max: 12 }).withMessage('First name must be between 2 and 12 characters'),
   check('firstName').isAlpha().withMessage('First name must be alphabetic'),
   check('firstName').isLength({ min: 2, max: 25 }).withMessage('First name must be between 2 and 25 characters'),
   check('lastName').isAlpha().withMessage('Last name must be alphabetic'),
@@ -44,7 +44,7 @@ router.post('/register', [
       req.body.lastName,
       req.body.emailAddress.toLowerCase(),
       await hashPassword(req.body.password1),
-      'user'
+      req.body.role,
     );
 
     req.session.user = user;

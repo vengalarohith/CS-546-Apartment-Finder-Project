@@ -8,13 +8,17 @@ const router = express.Router();
 
 router.get('/', authMiddleware, async (req, res) => {
   const listings = await listingsData.getListings();
-  console.log(listings);
-  console.log('listings');
   if (req.session.user) {
     res.render('dashboard', { title: 'Dashboard', user: req.session.user, listings: JSON.stringify(listings) });
   } else {
     res.redirect('/auth/login');
   }
+});
+
+router.get('/charts', authMiddleware, async (req, res) => {
+  const listings = await listingsData.getListings();
+  res.render('charts', { title: 'Finder Analytics', user: req.session.user, listings: JSON.stringify(listings) });
+
 });
 
 router.get('/listing', async (req, res) => {
@@ -39,6 +43,12 @@ router.get('/mytours', async (req, res) => {
   const tours = await toursData.currentUserTours(req.session.user._id);
   res.render('tours', {tours: JSON.stringify(tours)});
 });
+
+router.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/auth/login');
+});
+
 
 export default router;
 

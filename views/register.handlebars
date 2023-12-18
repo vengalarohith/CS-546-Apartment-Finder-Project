@@ -35,6 +35,13 @@
             <label for="password">Re Enter Password:</label>
             <input type="password" id="password" name="password2" required>
         </div>
+        <div>
+            <label for="role">Who you want to be:</label>
+            <select id="role" name="role" required>
+                <option value="tenant">Tenant</option>
+                <option value="landlord">Landlord</option>
+            </select>
+        </div>
         <button type="submit">Register</button>
     </form>
     <p>Already have an account? <a href="/auth/login">Login</a>.</p>

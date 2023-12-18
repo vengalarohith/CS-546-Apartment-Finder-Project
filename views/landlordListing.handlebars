@@ -3,7 +3,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-{{> header}}
+{{> landlordHeader}}
 
 <div class="listing-container">
     <section id="listing-details">
@@ -31,7 +31,7 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-        <h2>Listing Details</h2>
+            <h2>Listing Details</h2>
             <div class="price-info">
                 <p class="price-label">Price:</p>
                 <p class="price-value">${{listing.rentPrice}}</p>
@@ -49,50 +49,29 @@
                 <p class="baths-value">{{listing.address}}, {{listing.city}}, {{listing.state}}</p>
             </div>
 
-        <h3>Description</h3>
-        <p id="description">{{listing.description}}</p>
+            <h3>Description</h3>
+            <p id="description">{{listing.description}}</p>
 
 
     </section>
 
     <section id="comments">
         <h3>Comments</h3>
-            <div id="comment-section" class="comments-thread">
-                <!-- Comments will be dynamically added here -->
-            </div>
+        <div id="comment-section" class="comments-thread">
+            <!-- Comments will be dynamically added here -->
+        </div>
         <div id="new-comment-section">
             <form action="/listing/comment/new" method="post">
 
-            <textarea type="text" id="comment" name="comment" placeholder="Add your comment..."></textarea>
-            <input type="hidden" id="listingId" name="id" value="{{listing._id}}">
-            <button id="post-comment-btn" onclick="postComment()">Post Comment</button>
+                <textarea type="text" id="comment" name="comment" placeholder="Add your comment..."></textarea>
+                <input type="hidden" id="listingId" name="id" value="{{listing._id}}">
+                <button id="post-comment-btn" onclick="postComment()">Post Comment</button>
             </form>
         </div>
     </section>
 
-    <section id="landlord-info">
-        <h2>Landlord Information</h2>
-        <p>Landlord Name: <span id="landlord-name">{{landlord.firstName}} {{landlord.lastName}}</span></p>
-        <p>Contact: <span id="landlord-contact">{{landlord.emailAddress}}</span></p>
-    </section>
-    <section id="landlord-info">
-        <div id="schedule-tour-section">
-            <h3>Schedule a Tour</h3>
-            <form action="/mytours" method="post">
-
-                <label for="tourDateTime">Tour Date and Time:</label>
-                <input type="datetime-local" id="tourDateTime" name="datetime" required onblur="validateTourDate()">
 
 
-
-                <input type="hidden" id="listingId" name="listing" value="{{listing._id}}">
-                <input type="hidden" id="tenantId" name="landlord" value="{{landlord._id}}">
-                <input type="hidden" id="address" name="address" value="{{listing.address}}">
-
-                <button type="submit">Submit Tour Request</button>
-            </form>
-        </div>
-    </section>
 </div>
 
 <script type="application/javascript">

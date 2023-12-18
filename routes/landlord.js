@@ -1,8 +1,22 @@
 import express from 'express';
 const router = express.Router();
 import { check, validationResult } from 'express-validator';
-import listingData from '../data/listings.js';
+import listingsData from '../data/listings.js';
 import toursData from '../data/tours.js';
+import {authMiddleware} from '../middleware.js';
+
+router.get('/', authMiddleware, async (req, res) => {
+    console.log('entered');
+    const listings = await listingsData.getListingsLandord(req.session.user._id);
+    console.log('fectched')
+    console.log(listings);
+    console.log('listings');
+    if (req.session.user) {
+        res.render('landlordDashbaord', { title: 'Landlord Dashboard', user: req.session.user, listings: JSON.stringify(listings) });
+    } else {
+        res.redirect('/auth/login');
+    }
+});
 
 router.get('/listings/new', (req, res) => {
   res.render('addNewListing', { title: 'Add New Listing' });
@@ -27,7 +41,7 @@ router.post('/listings/new', async (req, res) => {
     const imagesArray = images.split(',').map(image => image.trim());
     console.log(imagesArray)
 
-    const new_listing = await listingData.newListing(
+    const new_listing = await listingsData.newListing(
         req.session.user._id,
         address,
         city,
@@ -41,11 +55,11 @@ router.post('/listings/new', async (req, res) => {
         imagesArray
     );
     console.log('completed')
-    res.redirect('/landlord/listings/new');
+    res.redirect('/landlord');
 });
 
 router.get('/tours', async (req, res) => {
-    const tours = await toursData.currentUserTours(req.session.user._id);
+    const tours = await toursData.currentlandlordTours(req.session.user._id);
     res.render('landlorTours', {tours: JSON.stringify(tours)});
 });
 
@@ -64,6 +78,17 @@ router.post('/approve-tour', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 
+});
+
+router.get('/charts', authMiddleware, async (req, res) => {
+    const listings = await listingsData.getListings();
+    console.log(JSON.stringify(listings));
+    res.render('landlordCharts', { title: 'Finder Analytics', user: req.session.user, listings: JSON.stringify(listings) });
+});
+
+router.get('/listing', async (req, res) => {
+    const listing = await listingsData.getListingById(req.query.id);
+    res.render('landlordListing', {title: listing.address, listing: listing, comments: JSON.stringify(listing.comments)});
 });
 
 

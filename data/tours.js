@@ -25,6 +25,12 @@ const currentUserTours = async (userId) => {
     return allTours;
 }
 
+const currentlandlordTours = async (userId) => {
+    const toursCollection = await tours();
+    const allTours = await toursCollection.find({landlordId: userId}).toArray();
+    return allTours;
+}
+
 const updateTourStatus = async (tourId) => {
     const toursCollection = await tours();
 
@@ -42,4 +48,5 @@ export default {
 newTour,
 currentUserTours,
 updateTourStatus,
+currentlandlordTours
 }

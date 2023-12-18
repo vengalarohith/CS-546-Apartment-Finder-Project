@@ -5,10 +5,14 @@ const authMiddleware = (req, res, next) => {
     res.redirect('auth/login');
     return;
   }
+  console.log(req.session.user.role);
 
-  if (req.originalUrl === '/admin' && req.session.user.role !== 'admin') {
-    res.status(401).send('Unauthorized');
-    return;
+  if (req.originalUrl === '/' && req.session.user.role === 'landlord') {
+    return res.redirect('/landlord');
+  }
+
+  if (req.originalUrl === '/landlord' && req.session.user.role === 'tenant') {
+    return res.redirect('/');
   }
 
   next();

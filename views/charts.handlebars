@@ -1,0 +1,56 @@
+{{> header}}
+<body>
+<div class="chart-container ">
+<h1>Available listings in each state</h1>
+<canvas id="listingsChart" width="400" height="200"></canvas>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script type="application/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const listings = {{{listings}}};
+
+        // Create a count object for each state
+        const stateCounts = {};
+        listings.forEach(listing => {
+            const state = listing.state;
+            stateCounts[state] = (stateCounts[state] || 0) + 1;
+        });
+
+        // Display the counts
+        console.log(stateCounts);
+
+        const listingsPerState = stateCounts;
+
+        // Get canvas element
+        const ctx = document.getElementById('listingsChart').getContext('2d');
+
+        // Create bar chart
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(listingsPerState),
+                datasets: [{
+                    label: 'Listings per State',
+                    data: Object.values(listingsPerState),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Adjust color as needed
+                    borderColor: 'rgba(75, 192, 192, 1)', // Adjust color as needed
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+
+
+
+    });
+</script>
